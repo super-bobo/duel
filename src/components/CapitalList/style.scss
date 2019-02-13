@@ -1,0 +1,12 @@
+@import '../../assets/css/color.scss';
+.title{
+    margin-bottom: 0;
+    padding-left: 16px;
+    height: 54px;
+    line-height: 54px;
+    background-color: $bg-color;
+    font-size: 16px;
+}
+.add{
+    color: $border-color;
+}

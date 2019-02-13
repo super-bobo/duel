@@ -1,0 +1,11 @@
+@import '../../assets/css/color.scss';
+.container{
+    width: 100%;
+    background: rgba(35,27,77,.75);
+    -webkit-box-shadow: 0 2px 6px 0 rgba(19,13,51,.5);
+    box-shadow: 0 2px 6px 0 rgba(19,13,51,.5);
+    border-radius: 6px;
+    border: 1px solid rgba($color: $border-color, $alpha: .6);
+    margin-bottom: 20px;
+    overflow: hidden;
+}

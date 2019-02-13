@@ -1,0 +1,9 @@
+@import '../../assets/css/color.scss';
+.load{
+    height: 100%;
+    text-align: center;
+    color: $font-color;
+    .loading{
+        margin-top: 8px;
+    }
+}

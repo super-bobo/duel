@@ -1,0 +1,96 @@
+@import '../../assets/css/color.scss';
+.header{
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: $basis-color;
+    color: #fff;
+    z-index: 100;
+    &.top{
+        background-color: rgba($color: $basis-color, $alpha: .3);
+    }
+}
+.row{
+    height: 60px;
+}
+.left{
+    margin-right: 20px;
+    .logo{
+        width: 40px;
+    }
+}
+.center{
+    flex: 1;
+    .nav-cell{
+        cursor: pointer;
+        margin-left: 20px;
+        margin-right: 20px;
+        transition: all .3s;
+        &:hover{
+            color: $hover-color;
+        }
+    }
+}
+.right{
+    .lang-item{
+        margin-left: 20px;
+        cursor: pointer;
+    }
+}
+.to-login{
+    cursor: pointer;
+}
+.lang-menu{
+    img{
+        margin-right: 10px;
+    }
+}
+.share-wrap{
+    padding: 15px;
+    margin-top: 10px;
+    background-color: rgba($color: #000, $alpha: .2);  
+    border-radius: 5px;
+    a{
+        word-break: break-all;
+    }
+}
+.share-btn{
+    margin-top: 15px;
+    text-align: center;
+}
+p.tip{
+    margin-top: 5px;
+    font-size: 12px;
+    color: $hover-color;
+}
+.reward-wrap{
+    margin-top: 10px;
+    .get-trx{
+        height: 42px;
+        line-height: 42px;
+        padding-left: 3%;
+        background-color: rgba($color: #000, $alpha: .3);
+        border-radius: 5px;
+        img{
+            height: 16px;
+            margin-right: 5px;
+        }
+    }
+}
+.promote-wrap{
+    margin-top: 10px;
+}
+.share-input{
+    position: absolute;
+    left: -100%;
+    top: -100%;
+    height: 1px;
+    width: 10px;
+}
+.mobile-menu{
+    padding-top: 5px;
+    margin-left: 10px;
+    font-size: 22px;
+}
+

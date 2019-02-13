@@ -1,0 +1,24 @@
+@import '../../assets/css/color.scss';
+.table-left{
+    .left, .right{
+        flex: 1;
+        text-align: center;
+        img{
+            height: 36px;
+        }
+    }
+    .center{
+        display: inline-block;
+        padding: 0 4px;
+        line-height: 1.416;
+        background-color: $border-color;
+        color: #fff;
+        border-radius: 5px;
+    }
+}
+.coin{
+    height: 32px;
+}
+.self{
+    color: $border-color;
+}

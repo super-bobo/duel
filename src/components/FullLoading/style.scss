@@ -1,0 +1,66 @@
+@import '../../assets/css/color.scss';
+.full-load{
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba($color: #000000, $alpha: .85);
+    z-index: 9999;
+}
+.loader-wrap{
+    // width: 60px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    .wrap{
+        display: inline-block;
+        width: 60px;
+        height: 72px;
+        position: relative;
+    }
+    span{
+        display: block;
+        margin-top: 6px;
+        color: rgba($color: #fff, $alpha: .8);
+        font-size: 16px;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    }
+}
+.line{
+    width: 8px;
+    position: absolute;
+    border-radius: 5px;
+    bottom: 0;
+    background: -webkit-gradient(linear, left top, left bottom, from($bg-color), to($border-color));
+    background: -webkit-linear-gradient(top, $bg-color, $border-color);
+    background: linear-gradient(to bottom, $bg-color, $border-color);
+}
+.line1{
+    left: 0;
+    -webkit-animation: line-grow 0.5s ease alternate infinite;
+    animation: line-grow 0.5s ease alternate infinite;
+}
+.line2{
+    left: 26px;
+    -webkit-animation: line-grow 0.5s 0.2s ease alternate infinite;
+    animation: line-grow 0.5s 0.2s ease alternate infinite;
+}
+.line3{
+    right: 0;
+    -webkit-animation: line-grow 0.5s 0.4s ease alternate infinite;
+    animation: line-grow 0.5s 0.4s ease alternate infinite;
+}
+
+
+@keyframes line-grow {
+    0% {
+        height: 0;
+    }
+    
+    100% {
+        height: 80%;
+    }
+}

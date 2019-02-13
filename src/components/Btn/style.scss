@@ -1,0 +1,45 @@
+@import '../../assets/css/color.scss';
+.btn{
+    position: relative;
+    display: inline-block;
+    text-align: center;
+    opacity: .92;
+    transition: all .3s;
+    cursor: pointer;
+    overflow: hidden;
+    &:hover{
+        opacity: 1;
+    }
+}
+.loading{
+    &:after{
+        content: "";
+        display: block;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        left: 0;
+        top: 0;
+        background-color: rgba($color: #000, $alpha: 0.5);
+    }
+    &:hover{
+        opacity: .92;
+    }
+}
+.cancel{
+    padding: 4px 16px;
+    border-radius: 20px;
+    color: #333;
+    background-color: $lighter-color;
+}
+.submit{
+    padding: 10px 32px;
+    background-image: linear-gradient(-180deg,#dd54b5,#bc56df 99%);
+    box-shadow: 0 1px 2px 0 rgba(0,0,0,.3);
+    border-radius: 5px;
+}
+.duel{
+    padding: 4px 16px;
+    border-radius: 20px;
+    background-color: $border-color;
+} 
