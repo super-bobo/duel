@@ -37,6 +37,12 @@
         margin-left: 20px;
         cursor: pointer;
     }
+    .address{
+        color: $active-color;
+    }
+    .balance{
+        color: $hover-color;
+    }
 }
 .to-login{
     cursor: pointer;
@@ -92,5 +98,11 @@ p.tip{
     padding-top: 5px;
     margin-left: 10px;
     font-size: 22px;
+}
+.m-drawer{
+    color: #fff;
+    li{
+        margin: 16px 0;
+    }
 }
 

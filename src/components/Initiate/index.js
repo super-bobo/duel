@@ -70,7 +70,7 @@ class Header extends Component {
     const address = getUrlParam('from');
     createDuel(currentType, inputValue, address).then(() => {
       tip.call(this);
-      message.warn(lang['initiate.create.success']);
+      message.success(lang['initiate.create.success']);
     }).catch(() => {
       tip.call(this);
       message.error(lang['initiate.create.fail']);

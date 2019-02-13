@@ -158,8 +158,8 @@ class Header extends Component {
                 {
                   tronInfo.isTronLogin ? 
                   <div className={styles.userInfo}>
-                    <div>{address}</div>
-                    <div>{tronInfo.tronBalance} TRX</div>
+                    <div className={styles.address}>{address}</div>
+                    <div className={styles.balance}>{tronInfo.tronBalance} TRX</div>
                   </div> : <div className={styles['to-login']} onClick={() => {this.setState({loginModalVisible: true})}}>{lang['header.login']}</div>
                 }
               </Col>
@@ -173,18 +173,16 @@ class Header extends Component {
                   <Drawer
                     title=""
                     placement="top"
-                    height="100%"
                     className="self"
-                    // zIndex={9999}
                     onClose={() => this.cancelModal('drawerVisible')}
                     visible={drawerVisible}
                   >
-                    <ul>
-                      <li><span>{lang['header.promoter']}</span></li>
-                      <li onClick={() => this.showModal('playVisible')}><span>{lang['header.play']}</span></li>
-                      <li onClick={() => this.showModal('roadmapVisible')}><span>{lang['header.roadmap']}</span></li>
-                      <li onClick={() => this.showModal('tokenVisible')}><span>{lang['header.token']}</span></li>
-                      <li onClick={() => this.showModal('miningVisible')}><span>{lang['header.mining']}</span></li>
+                    <ul className={styles['m-drawer']}>
+                      <li><span onClick={() => this.showModal('promoterVisible', () => this.getPromoterInfo())}>{lang['header.promoter']}</span></li>
+                      <li><span onClick={() => this.showModal('playVisible')}>{lang['header.play']}</span></li>
+                      <li><span onClick={() => this.showModal('roadmapVisible')}>{lang['header.roadmap']}</span></li>
+                      <li><span onClick={() => this.showModal('tokenVisible')}>{lang['header.token']}</span></li>
+                      <li><span onClick={() => this.showModal('miningVisible')}>{lang['header.mining']}</span></li>
                     </ul>
                   </Drawer>
               </Col>

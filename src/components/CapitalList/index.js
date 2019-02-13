@@ -24,7 +24,7 @@ class CapitalList extends Component {
         {
           title: lang['capital.type'],
           dataIndex: 'type',
-          width: '25%',
+          width: '28%',
           align: 'center',
           render: (text, record) => {
             let { type } = this.state;
@@ -33,12 +33,12 @@ class CapitalList extends Component {
         },{
           title: lang['capital.time'],
           dataIndex: 'createdAt',
-          width: '50%',
+          width: '48%',
           align: 'center'
         },{
           title: lang['capital.balance'],
           dataIndex: 'amount',
-          width: '25%',
+          width: '24%',
           align: 'center',
           render: (text, record) => {
             let add = record.type === 2 || record.type === 3 || record.type === 4;

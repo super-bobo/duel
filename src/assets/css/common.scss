@@ -128,7 +128,7 @@ ul, ol{
     }
 
     .ant-drawer-content{
-      background-color: $light-color;
+      background-color: rgba($color: $basis-color, $alpha: .9);
     }
   }
   .ant-tabs{
@@ -176,5 +176,8 @@ ul, ol{
         background-color: transparent;
       }
     }
+  }
+  .ant-tooltip{
+    z-index: 999!important;
   }
 }
