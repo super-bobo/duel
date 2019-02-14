@@ -20,16 +20,16 @@ class LoginModal extends Component {
   }
   render() {
     let {visible, lang} = this.state;
-    const dev = window.dev;
+    const prod = window.prod;
     return (
       <Modal
           wrapClassName="self"
-          title={dev ? lang['net.dev.title']: lang['net.pro.title']}
+          title={prod ? lang['net.pro.title']: lang['net.dev.title']}
           visible={visible}
           onCancel={() =>this.setState({visible: false})}
           footer={null}
         >
-          <p>{dev ? lang['net.dev.text'] : lang['net.pro.text']}</p>
+          <p>{prod ? lang['net.pro.text'] : lang['net.dev.text']}</p>
         </Modal>
     );
   }

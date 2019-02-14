@@ -27,7 +27,8 @@ function tokenContract() {
  * @return: 
  */
 export function getTronAddress(type = 'base58') {
-  const defaultAddress = window.tronWeb && window.tronWeb.defaultAddress || {};
+  if(!window.tronWeb) return '';
+  const defaultAddress = window.tronWeb.defaultAddress;
   const hasAddress = !Object.entries(defaultAddress)
     .map(([key, address]) => address).includes(false) // 判断是否有默认的地址
   return hasAddress ? window.tronWeb.defaultAddress[type] : "";
@@ -119,6 +120,22 @@ export function promoterWithdraw() {
   })
 }
 
+/**
+ * @description: 获取duel系数
+ * @param {type} 
+ * @return: 
+ */
+export function getDuelAward() {
+  return contract().then(contract => {
+    return contract.getDuelAward().call().then(
+      res => {
+        console.log(res, 'getDuelAward');
+        return res/100;
+      }
+    )
+  })
+}
+
 
 /**
  * @description: 获取平台维护费
@@ -129,7 +146,7 @@ export function getMaintenanceChargeRate() {
   return contract().then(contract => {
     return contract.maintenanceChargeRate().call().then(
       res => {
-        return res
+        return res;
       }
     )
   })

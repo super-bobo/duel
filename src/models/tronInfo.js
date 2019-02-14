@@ -1,5 +1,5 @@
 import tronInit from '../config/tronInit';
-import { getTronAddress, getDuelBalances } from '../api/tronApi';
+import { getTronAddress, getDuelBalances, getDuelAward } from '../api/tronApi';
 import { getTronAccount } from '../api';
 
 import FullComponent from '../FullComponent';
@@ -14,7 +14,8 @@ export default {
     tronAddress: '', // 钱包地址
     tronBalance: 0, // trx余额
     duelBalance: 0, // duel 余额
-    userBalance: 0 // 可提现余额
+    userBalance: 0, // 可提现余额
+    duelAward: 1 // duel奖励系数
   },
 
   subscriptions: {
@@ -22,6 +23,9 @@ export default {
       tronInit(() => {
         dispatch({
           type: 'getTronInfo'
+        });
+        dispatch({
+          type: 'duelAward'
         });
         setInterval(() => {
           dispatch({
@@ -51,6 +55,10 @@ export default {
       asyncLoaded && FullComponent.remove('full-load'); // 移除loading效果
       asyncLoaded = false;
     },
+    *duelAward({ payload }, { call, put, all }) {
+      let duelAward = yield call(getDuelAward);
+      yield put({ type: 'setTroninfo', payload: {duelAward} });
+    }
   },
 
 };

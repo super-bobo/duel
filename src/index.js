@@ -7,7 +7,7 @@ import FullComponent from './FullComponent';
 
 FullComponent.init('full-load', 'fullLoading');
 
-window.dev = process.env.NODE_ENV === 'development'; // prod 正式环境
+window.prod = process.env.NODE_ENV === 'production'; // prod 正式环境
 
 // 1. Initialize
 const app = dva({

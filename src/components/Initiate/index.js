@@ -4,8 +4,9 @@ import { connect } from 'dva';
 import styles from './style.scss';
 
 import config from './config';
+import configBet from './configBet';
 
-import { Slider, InputNumber, Row, Col, message } from 'antd';
+import { InputNumber, Row, Col, message } from 'antd';
 import { isNumber } from 'util';
 
 import { getUrlParam } from '../../utils/Tool';
@@ -23,8 +24,10 @@ class Header extends Component {
     const { min } = config;
     this.state = {
       inputValue: min,
+      betList: configBet,
       currentType: 0,
-      creating: false
+      creating: false,
+      duelAward: 0
     }
   }
   chooseBtn(index) {
@@ -34,7 +37,7 @@ class Header extends Component {
   }
   onChange = (value) => {
     this.setState({
-      inputValue: value,
+      inputValue: value
     });
   }
   onBlur = () => {
@@ -79,11 +82,12 @@ class Header extends Component {
   componentWillMount() {
   }
   render() {
-    const { inputValue, currentType, creating } = this.state;
+    const { inputValue, currentType, creating, betList } = this.state;
     const {min, max, odds} = config;
-    let { isTronLogin, tronBalance, duelBalance } = this.props.tronInfo;
+    let { isTronLogin, tronBalance, duelBalance, duelAward } = this.props.tronInfo;
     const {lang} = this.props.langInfo;
-    let obtain = isNumber(inputValue) ? (inputValue*2*(1 - odds)).toFixed(1) : '0.0';
+    let trxObtain = isNumber(inputValue) ? (inputValue*2*(1 - odds)).toFixed(1) : '0.0';
+    let duelObtain = isNumber(inputValue) ? (inputValue*2*(1 - odds)*duelAward).toFixed(1) : '0.0';
     return (
       <PartContainer height="520px">
         <div className={styles['content']}>
@@ -98,27 +102,34 @@ class Header extends Component {
           </div>
           <div className={styles['duel-wrapper']}>
             <Row type="flex" align="middle" className={styles.center}>
-              <Col style={{marginRight: '15px'}}>
-                <span>{lang['initiate.bets.number']}</span>
-              </Col>
               <Col style={{flex: 1}}>
-                <Slider
-                  tooltipVisible
-                  min={min}
-                  max={max}
-                  onChange={this.onChange}
-                  value={typeof inputValue === 'number' ? inputValue : min}
-                />
-              </Col>
-              <Col>
                 <InputNumber
+                  size="large"
                   min={min}
                   max={max}
-                  style={{marginLeft: '15px',marginRight: '2px'}}
+                  step={100}
+                  formatter={value => {
+                    let parse = parseInt(value);
+                    if(parse > max) return max;
+                    if(parse < min) return min;
+                    return parse;
+                  }}
                   value={inputValue}
                   onChange={this.onChange}
                   onBlur={this.onBlur}
-                /> TRX
+                />
+              </Col>
+              <Col>TRX</Col>
+              <Col>
+                  <div className={styles['bet-wrap']}>
+                    {betList.map(bet => {
+                      return <span 
+                        className={bet.val === inputValue ? styles.active: null} 
+                        key={bet.key}
+                        onClick={()=>{this.setState({inputValue: bet.val})}}
+                        >{bet.val}</span>
+                    })}
+                  </div>
               </Col>
             </Row>
           </div>
@@ -130,17 +141,17 @@ class Header extends Component {
               </Col>
               <Col span={12}>
                 {lang['initiate.guess.trx']}
-                <div className={styles.num}>{obtain}<small>TRX</small></div>
+                <div className={styles.num}>{trxObtain}<small>TRX</small></div>
               </Col>
             </Row>
             <Row>
               <Col span={12}>
                 {lang['initiate.duel.balance']}
-                <div className={styles.num}>{duelBalance}<small>duel</small></div>
+                <div className={styles.num}>{duelBalance}<small>Duel</small></div>
               </Col>
               <Col span={12}>
                 {lang['initiate.guess.duel']}
-                <div className={styles.num}>{obtain}<small>duel</small></div>
+                <div className={styles.num}>{duelObtain}<small>Duel</small></div>
               </Col>
             </Row>
           </div>

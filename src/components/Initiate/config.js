@@ -1,5 +1,5 @@
 export default {
   min: 100,
-  max: 1000,
+  max: 100000,
   odds: 0.05
 }
