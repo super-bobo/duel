@@ -1,7 +1,7 @@
 import './assets/css/common.scss';
 import dva from 'dva';
 import createHistory from 'history/createBrowserHistory';
-import { tronInfo, lang } from './models';
+import { tronInfo, lang, duelInfo, capitalInfo } from './models';
 
 import FullComponent from './FullComponent';
 
@@ -20,6 +20,8 @@ const app = dva({
 // 3. Model
 app.model(lang);
 app.model(tronInfo);
+app.model(duelInfo);
+app.model(capitalInfo);
 
 // 4. Router
 app.router(require('./router').default);

@@ -4,7 +4,7 @@ const tronConfig = {
     tokenContract: prod ? 'TQwTqhRk7DZLiH3Tjwxng7XEiwGqMfKgyc' : 'TQwTqhRk7DZLiH3Tjwxng7XEiwGqMfKgyc',
     TRONGRID_API: prod ? 'https://api.trongrid.io' : 'https://api.shasta.trongrid.io',
     defaultAddress: 'TRR7BaKHje4RcVrDGTzDAKyqeQ9mYVdLQW',
-    cancelAt: 18000
+    cancelAt: 1800
 };
 
 export default tronConfig;

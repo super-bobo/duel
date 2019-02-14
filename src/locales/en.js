@@ -13,7 +13,7 @@ const en_US = {
   "play.text2": "2.You can choose to create duels or participate in duels created by others",
   "play.text3": "3.Create duel, select TRX number of bets (no one can participate in the duel after 30 minutes to cancel the duel)",
   "play.text4": "4. to participate in a duel, choose to participate in the number of duel bet and the creator, the opposite option",
-  "play.text5":  `5. Click "participate in duel" to start the game. The smart contract will then randomly select a lucky number from 0-1.(0 represents the gold supply box,1 represents the diamond supply box)`,
+  "play.text5":  `5. Click "participate in duel" to start the game. The smart contract will then randomly select a lucky number from 0-1.(0 represents the gold supply box,1 represents the silver supply box)`,
 
   "roadmap.text1-1": "Phase One: ",
   "roadmap.text1-2": "TRONDuel will soon complete features such as issuing the duel token, starting betting and mining, launching the exchange, etc., marking the early form of a closed loop of token issuance → betting and mining → trading. Also, TRONDuel will launch a series of campaigns to attract new users, including invitation bonus and token airdrop, etc.",

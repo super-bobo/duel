@@ -5,21 +5,13 @@ import styles from './style.scss';
 
 import { Table } from 'antd';
 import PartContainer from '../PartContainer';
-import OverContainer from '../OverContainer';
 import Loading from '../Loading';
-
-import { amountRecordsList } from '../../api';
-
 
 class CapitalList extends Component {
   constructor(props) {
     super(props);
     const {lang} = this.props.langInfo;
     this.state = {
-      list: [],
-      loading: false,
-      page: 1, 
-      limit: 30,
       columns: [
         {
           title: lang['capital.type'],
@@ -57,44 +49,35 @@ class CapitalList extends Component {
     }
   }
   componentWillMount() {
-    this.getList();
+    this.getList(true);
   }
   activeClass(type) {
     return type !== 0 ? styles.self : '';
   }
-  getList() {
-    let { page, limit } = this.state;
-    this.setState({loading: true});
-    amountRecordsList({page, limit}).then(res => {
-      this.setState({
-        list: res.data.body,
-        loading: false
-      })
+  getList(load = false) {
+    const {dispatch} = this.props;
+    dispatch({
+      type: 'capitalInfo/getCapitalInfo',
+      payload: {load}
     })
   }
-  callback(index) {
-    this.setState({activeKey: index}, () => {
-      this.getList();
-    });
-  }
   render() {
-    let { loading, columns, list } = this.state;
+    let { columns } = this.state;
+    let { loading, list } = this.props.capitalInfo;
     const {lang} = this.props.langInfo;
     return (
       <PartContainer height="520px">
         <p className={styles.title}>{lang['capital.detail']}</p>
-        <OverContainer height="464px">
-          <Loading loading={loading} data={list}>
-            <Table
-              rowKey="id"
-              columns={columns} 
-              dataSource={list} 
-              pagination={false} 
-              scroll={{ y: 410 }}
-              loading={loading}
-            />
-          </Loading>
-        </OverContainer>
+        <Loading height="464px" loading={loading} data={list}>
+          <Table
+            rowKey="id"
+            columns={columns} 
+            dataSource={list} 
+            pagination={false} 
+            scroll={{ y: 410 }}
+            loading={loading}
+          />
+        </Loading>
       </PartContainer>
     );
   }
@@ -103,6 +86,7 @@ class CapitalList extends Component {
 export default connect(state => {
   return {
     langInfo: state.lang,
-    tronInfo: state.tronInfo
+    tronInfo: state.tronInfo,
+    capitalInfo: state.capitalInfo
   }
 })(CapitalList);

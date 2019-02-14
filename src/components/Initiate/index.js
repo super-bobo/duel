@@ -51,6 +51,7 @@ class Header extends Component {
     const { inputValue, currentType } = this.state;
     const {min, max} = config;
     let { tronInfo: {tronBalance}, langInfo: {lang} } = this.props;
+    const {dispatch} = this.props;
     tip.call(this, true);
     function tip(bol = false) {
       this.setState({
@@ -74,6 +75,10 @@ class Header extends Component {
     createDuel(currentType, inputValue, address).then(() => {
       tip.call(this);
       message.success(lang['initiate.create.success']);
+      dispatch({
+        type: 'duelInfo/getDuelInfo',
+        payload: {load: false}
+      })
     }).catch(() => {
       tip.call(this);
       message.error(lang['initiate.create.fail']);

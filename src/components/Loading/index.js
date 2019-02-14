@@ -14,10 +14,10 @@ class Loading extends Component {
   componentWillMount() {
   }
   render() {
-    let {loading, children, data} = this.props;
+    let {loading, children, data, height} = this.props;
     return (
       loading ? (
-        <Row type="flex" align="middle" justify="center" className={styles.load}>
+        <Row type="flex" align="middle" justify="center" style={{height}} className={styles.load}>
           <Col>
             <Spin size="large" />
             <div className={styles.loading}>loading...</div>

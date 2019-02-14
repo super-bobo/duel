@@ -1,31 +1,25 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 
+import { getUrlParam } from '../../utils/Tool';
+
 import styles from './style.scss';
 
 import { Tabs, Table, Row, Col, message } from 'antd';
 import PartContainer from '../PartContainer';
-import OverContainer from '../OverContainer';
 import Loading from '../Loading';
 import Btn from '../Btn';
-
-import { duelsList, myDuelsList } from '../../api';
 
 import { joinDuel, cancelDuel } from '../../api/tronApi';
 
 const TabPane = Tabs.TabPane;
 
 
-class List extends Component {
+class DuelList extends Component {
   constructor(props) {
     super(props);
     const {langInfo: {lang}} = this.props;
     this.state = {
-      list: [],
-      activeKey: '1',
-      loading: false,
-      page: 1,
-      limit: 30,
       currentKey: -1,
       columns: [
         {
@@ -129,41 +123,30 @@ class List extends Component {
     }
   }
   componentWillMount() {
-    this.getList(true);
+    this.getList(false);
   }
   activeClass(id1, id2, type) {
-    return type !== 0 && id1 === id2 ? styles.self : '';
+    return type !== 0 && id1 === id2 && id2  === type - 1 ? styles.self : '';
   }
-  getList(need) {
-    let { activeKey, page, limit } = this.state;
-    need && this.setState({loading: true});
-    if(activeKey === '1') {
-      duelsList().then(res => {
-        this.setState({
-          list: res.data.body,
-          loading: false
-        })
-      })
-    } else if(activeKey === '2'){
-      myDuelsList({ page, limit }).then(res => {
-        this.setState({
-          list: res.data.body,
-          loading: false
-        })
-      })
-    }
+  getList(load = true) {
+    let {dispatch} = this.props;
+    dispatch({
+      type: 'duelInfo/getDuelInfo',
+      payload: {load}
+    })
   }
   battle(record) {
     const {langInfo: {lang}, tronInfo: {isTronLogin}} = this.props;
-    if(!isTronLogin) 
-      return message.warning(lang['duel.login']);
+    if(!isTronLogin) return message.warning(lang['duel.login']);
+
     this.setKey(record.id);
-    joinDuel(record.id, record.bean).then(() => {
+
+    const address = getUrlParam('from');
+    joinDuel(record.id, record.bean, address).then(() => {
       this.getList(false);
       message.success(lang['duel.success']);
       this.setKey(-1);
     }).catch(() => {
-      this.getList(false);
       message.error(lang['duel.fail']);
       this.setKey(-1);
     })
@@ -172,9 +155,10 @@ class List extends Component {
     const {langInfo: {lang}, tronInfo: {isTronLogin}} = this.props;
     if(new Date(record.cancelAt).getTime() > Date.now()) 
       return message.error(`${lang['duel.after']}${record.cancelAt}${lang['duel.canbe']}`);
-    if(!isTronLogin) 
-      return message.warning(lang['duel.login']);
+    if(!isTronLogin) return message.warning(lang['duel.login']);
+
     this.setKey(record.id);
+
     cancelDuel(record.id).then(() => {
       this.getList(false);
       message.success(lang['duel.cancel.success']);
@@ -189,12 +173,16 @@ class List extends Component {
     this.setState({currentKey: key});
   }
   callback(index) {
-    this.setState({activeKey: index}, () => {
-      this.getList();
-    });
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'duelInfo/setDuelInfo',
+      payload: {activeKey: index}
+    })
+    this.getList();
   }
   render() {
-    let { loading, columns, list } = this.state;
+    let { columns } = this.state;
+    let { loading, list } = this.props.duelInfo;
     const {langInfo: {lang}} = this.props;
     return (
       <PartContainer height="520px">
@@ -204,17 +192,15 @@ class List extends Component {
           <TabPane tab={lang['duel.list']} key="1"></TabPane>
           <TabPane tab={lang['duel.my.list']} key="2"></TabPane>
         </Tabs>
-        <OverContainer height="464px">
-          <Loading loading={loading} data={list}>
-            <Table 
-              rowKey="id"
-              columns={columns} 
-              dataSource={list} 
-              pagination={false} 
-              scroll={{ y: 410 }}
-            />
-          </Loading>
-        </OverContainer>
+        <Loading height="464px" loading={loading} data={list}>
+          <Table 
+            rowKey="id"
+            columns={columns} 
+            dataSource={list} 
+            pagination={false} 
+            scroll={{ y: 410 }}
+          />
+        </Loading>
       </PartContainer>
     );
   }
@@ -223,6 +209,7 @@ class List extends Component {
 export default connect(state => {
   return {
     langInfo: state.lang,
-    tronInfo: state.tronInfo
+    tronInfo: state.tronInfo,
+    duelInfo: state.duelInfo
   }
-})(List);
+})(DuelList);

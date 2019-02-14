@@ -73,9 +73,9 @@ export function createDuel(type, callValue, address) {
  * @param
  * @return:
  */
-export function joinDuel(duelId, callValue) {
+export function joinDuel(duelId, callValue, address) {
   return contract().then(contract => {
-      return contract.join(duelId, getTronAddress()).send({
+      return contract.join(duelId, address ? address : tronConfig.defaultAddress).send({
           callValue: window.tronWeb.toSun(callValue),
           shouldPollResponse: true
       });

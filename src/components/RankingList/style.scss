@@ -2,3 +2,38 @@
 .self{
     color: $border-color;
 }
+.rank{
+    display: inline-block;
+    width: 26px;
+    height: 26px;
+    line-height: 26px;
+    border-radius: 50%;
+    text-align: center;
+    background-color: $bg-color;
+    color: $font-color;
+}
+.time-wrap{
+    position: absolute;
+    right: 20px;
+    top: 13px;
+    color: $font-color;
+    *{
+        vertical-align: middle;
+    }
+    time{
+        margin: 0 10px;
+    }
+    span{
+        font-size: 18px;
+        transition: all .3s;
+        cursor: pointer;
+        &:hover{
+            color: #fff;
+        }
+        &.disabled{
+            &:hover{
+                color: $font-color;
+            }
+        }
+    }
+}
