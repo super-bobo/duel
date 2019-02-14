@@ -1,7 +1,7 @@
-step:
-dev: npm install && npm run start
-uat: npm install && npm run uat
-prod: npm install && npm run build
+step:<br/>
+dev: npm install && npm run start<br/>
+uat: npm install && npm run uat<br/>
+prod: npm install && npm run build<br/>
 
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

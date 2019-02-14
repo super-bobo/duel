@@ -60,9 +60,9 @@
     "workbox-webpack-plugin": "3.6.3"
   },
   "scripts": {
-    "start": "node scripts/start.js",
-    "build": "node scripts/build.js",
-    "uat": "node scripts/uat.js",
+    "start": "cross-env REACT_APP_SECRET_CODE=dev node scripts/start.js",
+    "build": "cross-env REACT_APP_SECRET_CODE=prod node scripts/build.js",
+    "uat": "cross-env REACT_APP_SECRET_CODE=uat node scripts/build.js",
     "test": "node scripts/test.js"
   },
   "eslintConfig": {
@@ -129,5 +129,8 @@
         }
       ]
     ]
+  },
+  "devDependencies": {
+    "cross-env": "^5.2.0"
   }
 }

@@ -1,4 +1,4 @@
-const prod = process.env.NODE_ENV === 'production'; // prod 正式环境
+const prod = process.env.REACT_APP_SECRET_CODE === 'prod'; // prod 正式环境
 const tronConfig = {
     contract: prod ? 'TEuGSa6F91bW2zJGPre2tTVYUqAUPyJFgo' : 'TEuGSa6F91bW2zJGPre2tTVYUqAUPyJFgo',
     tokenContract: prod ? 'TQwTqhRk7DZLiH3Tjwxng7XEiwGqMfKgyc' : 'TQwTqhRk7DZLiH3Tjwxng7XEiwGqMfKgyc',
