@@ -7,6 +7,7 @@ import Initiate from '../../components/Initiate';
 import DuelList from '../../components/DuelList';
 import RankingList from '../../components/RankingList';
 import CapitalList from '../../components/CapitalList';
+import MiningInfo from '../../components/MiningInfo';
 import { Row, Col } from 'antd';
 
 class Home extends Component {
@@ -28,6 +29,7 @@ class Home extends Component {
               <DuelList />
             </Col>
           </Row>
+          <MiningInfo />
           <Row gutter={10}>
             <Col sm={24} md={12}>
               <RankingList />

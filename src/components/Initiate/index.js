@@ -9,7 +9,7 @@ import configBet from './configBet';
 import { InputNumber, Row, Col, message } from 'antd';
 import { isNumber } from 'util';
 
-import { getUrlParam } from '../../utils/Tool';
+import { getUrlParam, fixedTo2 } from '../../utils/Tool';
 
 import { createDuel } from '../../api/tronApi';
 
@@ -91,8 +91,8 @@ class Header extends Component {
     const {min, max, odds} = config;
     let { isTronLogin, tronBalance, duelBalance, duelAward } = this.props.tronInfo;
     const {lang} = this.props.langInfo;
-    let trxObtain = isNumber(inputValue) ? (inputValue*2*(1 - odds)).toFixed(1) : '0.0';
-    let duelObtain = isNumber(inputValue) ? (inputValue*2*(1 - odds)*duelAward).toFixed(1) : '0.0';
+    let trxObtain = isNumber(inputValue) ? fixedTo2(inputValue*2*(1 - odds)) : '0.00';
+    let duelObtain = isNumber(inputValue) ? fixedTo2(inputValue*2*(1 - odds)*duelAward) : '0.00';
     return (
       <PartContainer height="520px">
         <div className={styles['content']}>
@@ -142,21 +142,21 @@ class Header extends Component {
             <Row>
               <Col span={12}>
                 {lang['initiate.wallet.balance']}
-                <div className={styles.num}>{tronBalance}<small>TRX</small></div>
+                <div className={styles.num}>{tronBalance}</div>
               </Col>
               <Col span={12}>
                 {lang['initiate.guess.trx']}
-                <div className={styles.num}>{trxObtain}<small>TRX</small></div>
+                <div className={styles.num}>{trxObtain}</div>
               </Col>
             </Row>
             <Row>
               <Col span={12}>
                 {lang['initiate.duel.balance']}
-                <div className={styles.num}>{duelBalance}<small>Duel</small></div>
+                <div className={styles.num}>{duelBalance}</div>
               </Col>
               <Col span={12}>
                 {lang['initiate.guess.duel']}
-                <div className={styles.num}>{duelObtain}<small>Duel</small></div>
+                <div className={styles.num}>{duelObtain}</div>
               </Col>
             </Row>
           </div>

@@ -1,6 +1,6 @@
 import tronInit from '../config/tronInit';
 import tronConfig from '../config/tronConfig';
-import { num2or6 } from '../utils/Tool';
+import { fixedTo2 } from '../utils/Tool';
 
 let contractEvent = null;
 let tokenContractEvent = null;
@@ -46,7 +46,7 @@ export function getDuelBalances() {
   return tokenContract().then(async contract => {
     return contract.balanceOf(await getTronAddress()).call().then(
       res => {
-        return window.tronWeb.fromSun(window.tronWeb.toDecimal(res.balance._hex));
+        return fixedTo2(window.tronWeb.fromSun(window.tronWeb.toDecimal(res.balance._hex)));
       }
     )
   })
@@ -102,7 +102,7 @@ export function getPromoterBalances() {
   return contract().then(contract => {
     return contract.promoterBalances(getTronAddress()).call().then(
       res => {
-        return num2or6(window.tronWeb.fromSun(window.tronWeb.toDecimal(res._hex)))
+        return fixedTo2(window.tronWeb.fromSun(window.tronWeb.toDecimal(res._hex)))
       }
     )
   })
@@ -129,8 +129,22 @@ export function getDuelAward() {
   return contract().then(contract => {
     return contract.getDuelAward().call().then(
       res => {
-        console.log(res, 'getDuelAward');
         return res/100;
+      }
+    )
+  })
+}
+
+/**
+ * @description: 获取已挖出的duel
+ * @param {type} 
+ * @return: 
+ */
+export function getAwardDuelTotal() {
+  return contract().then(contract => {
+    return contract.awardDuelTotal().call().then(
+      res => {
+        return parseInt(window.tronWeb.fromSun(window.tronWeb.toDecimal(res._hex)));
       }
     )
   })

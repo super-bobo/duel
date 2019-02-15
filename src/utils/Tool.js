@@ -44,9 +44,8 @@ function formatDate(date, s, d) {
   return d ? dateStr : `${dateStr} ${timeStr}`;
 }
 
-function num2or6(value) {
-  let fixed = value == 0 ? 2 : 6;
-  return numFixed(value)(fixed);
+function fixedTo2(value) {
+  return numFixed(value)(2);
 }
 
 export {
@@ -54,5 +53,5 @@ export {
   getUrlParam,
   numFixed,
   formatDate,
-  num2or6
+  fixedTo2
 };

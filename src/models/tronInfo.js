@@ -2,6 +2,8 @@ import tronInit from '../config/tronInit';
 import { getTronAddress, getDuelBalances, getDuelAward } from '../api/tronApi';
 import { getTronAccount } from '../api';
 
+import { fixedTo2 } from '../utils/Tool';
+
 import FullComponent from '../FullComponent';
 
 let asyncLoaded = true;
@@ -49,7 +51,7 @@ export default {
       if(!!tronAddress){
         let [tronAccount, duelBalance] = yield all([call(getTronAccount), call(getDuelBalances)]);
         let { balance } = tronAccount.data;
-        let tronBalance = balance ? window.tronWeb.fromSun(balance) : 0;
+        let tronBalance = balance ? fixedTo2(window.tronWeb.fromSun(balance)) : '0.00';
         yield put({ type: 'setTroninfo', payload: { tronBalance, duelBalance } });
       }
       asyncLoaded && FullComponent.remove('full-load'); // 移除loading效果

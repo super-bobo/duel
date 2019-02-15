@@ -15,6 +15,7 @@ import { promoterRecordsList } from '../../api';
 
 import { getPromoterBalances, promoterWithdraw } from '../../api/tronApi';
 
+import miningData from '../MiningInfo/miningData';
 
 class Header extends Component {
   constructor(props) {
@@ -189,6 +190,8 @@ class Header extends Component {
             </Row>
           </div>
         </header>
+
+        {/* 怎么玩 */}
         <Modal
           wrapClassName="self"
           title={lang['header.play']}
@@ -206,6 +209,8 @@ class Header extends Component {
           <p>{lang['play.text4']}</p>
           <p>{lang['play.text5']}</p>
         </Modal>
+
+        {/* 路径图 */}
         <Modal
           wrapClassName="self"
           title={lang['header.roadmap']}
@@ -217,6 +222,8 @@ class Header extends Component {
           <p><span className="text-title">{lang['roadmap.text2-1']}</span>{lang['roadmap.text2-2']}</p>
           <p><span className="text-title">{lang['roadmap.text3-1']}</span>{lang['roadmap.text3-2']}</p>
         </Modal>
+
+        {/* duel token */}
         <Modal
           wrapClassName="self"
           title={lang['header.token']}
@@ -232,6 +239,8 @@ class Header extends Component {
           <p>{lang['token.text2-6']}</p>
           <p>{lang['token.text2-7']}</p>
         </Modal>
+
+        {/* 人人都是推广员 */}
         <Modal
           wrapClassName="self"
           title={lang['header.promoter']}
@@ -271,7 +280,36 @@ class Header extends Component {
               />
             </Loading>
           </div>
+        </Modal>
 
+        {/* 挖矿介绍 */}
+        <Modal
+          wrapClassName="self"
+          title={lang['header.mining']}
+          visible={miningVisible}
+          onCancel={() =>this.cancelModal('miningVisible')}
+          footer={null}
+        >
+          <p>{lang['mining.text1']}</p>
+          <p>{lang['mining.text2']}</p>
+          <p>{lang['mining.text3']}</p><br />
+          <p>{lang['mining.text6']}<span className="text-title">10,000,000,000 * 50% = 5,000,000,000</span></p>
+          <p>{lang['mining.text7']}</p>
+          <p>{lang['mining.text8']}</p>
+          <table className={styles['mining-table']}>
+            <tr>
+              <td>{lang['mining.phase']}</td>
+              <td>{lang['mining.get.duel']}</td>
+              <td>{lang['mining.now.amount']}</td>
+            </tr>
+            {miningData.map(item =>(
+              <tr key={item.mining}>
+                <td>{item.mining}</td>
+                <td>{item.key}</td>
+                <td>{item.val}</td>
+              </tr>
+            ))}
+          </table>
         </Modal>
         <LoginModal out={true} show={loginModalVisible} onClick={this.loginModalHandler.bind(this)} />
       </React.Fragment>
