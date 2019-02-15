@@ -16,6 +16,11 @@ import { promoterRecordsList } from '../../api';
 import { getPromoterBalances, promoterWithdraw } from '../../api/tronApi';
 
 import miningData from '../MiningInfo/miningData';
+import tronConfig from '../../config/tronConfig';
+
+const IconFont = Icon.createFromIconfontCN({
+  scriptUrl: tronConfig.iconLink,
+});
 
 class Header extends Component {
   constructor(props) {
@@ -143,7 +148,7 @@ class Header extends Component {
                 <img className={styles['logo']} src={require('../../assets/images/logo.png')} alt="logo" />
               </Col>
               <Col className={`${styles.center} hidden-sm`}>
-                <Row type="flex">
+                <Row type="flex" align="middle">
                   <Col>
                     <div className={styles['nav-cell']} onClick={() => this.showModal('promoterVisible', () => this.getPromoterInfo())}>{lang['header.promoter']}</div>
                   </Col>
@@ -151,6 +156,11 @@ class Header extends Component {
                     <Dropdown overlay={this.menu()} placement="bottomRight" overlayClassName="self">
                       <div className={styles['nav-cell']}>{lang['header.introduction']} <Icon type="down" /></div>
                     </Dropdown>
+                  </Col>
+                  <Col>
+                    <a className={styles.dianbao} href="https://t.me/joinchat/Le3fahVl1fiHZBnZ1Bjf3Q" target="_blank">
+                      <IconFont type="icon-dianbao"/>
+                    </a>
                   </Col>
                 </Row>
               </Col>

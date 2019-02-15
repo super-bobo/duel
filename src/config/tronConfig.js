@@ -4,7 +4,8 @@ const tronConfig = {
     tokenContract: prod ? 'TQwTqhRk7DZLiH3Tjwxng7XEiwGqMfKgyc' : 'TQwTqhRk7DZLiH3Tjwxng7XEiwGqMfKgyc',
     TRONGRID_API: prod ? 'https://api.trongrid.io' : 'https://api.shasta.trongrid.io',
     defaultAddress: 'TRR7BaKHje4RcVrDGTzDAKyqeQ9mYVdLQW',
-    cancelAt: 1800
+    cancelAt: 1800,
+    iconLink: '//at.alicdn.com/t/font_1046504_msj6a4ooqx.js'
 };
 
 export default tronConfig;

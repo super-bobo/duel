@@ -15,7 +15,6 @@ import { duelDetail } from '../../api';
 
 const TabPane = Tabs.TabPane;
 
-
 class DuelList extends Component {
   constructor(props) {
     super(props);

@@ -199,7 +199,7 @@ ul, ol{
     .ant-table-header{
       margin-bottom: 0!important;
       padding-bottom: 0!important;
-      background-color: transparent;
+      background-color: $basis-color;
       overflow: hidden!important;
     }
     .ant-table-thead > tr > th{

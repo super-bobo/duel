@@ -32,6 +32,21 @@
         }
     }
 }
+.dianbao{
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    background-color: rgba($color: #fff, $alpha: .3);
+    color: #fff;
+    border-radius: 50%;
+    font-size: 18px;
+    transition: all .3s;
+    &:hover{
+        background-color: rgba($color: #fff, $alpha: .2);
+    }
+}
 .right{
     .lang-item{
         margin-left: 20px;
