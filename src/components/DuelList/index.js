@@ -123,7 +123,7 @@ class DuelList extends Component {
     }
   }
   componentWillMount() {
-    this.getList(false);
+    this.getList();
   }
   activeClass(id1, id2, type) {
     return type !== 0 && id1 === id2 && id2  === type - 1 ? styles.self : '';
@@ -136,7 +136,7 @@ class DuelList extends Component {
     })
   }
   battle(record) {
-    const {langInfo: {lang}, tronInfo: {isTronLogin}} = this.props;
+    const {langInfo: {lang}, tronInfo: {isTronLogin}, dispatch} = this.props;
     if(!isTronLogin) return message.warning(lang['duel.login']);
 
     this.setKey(record.id);
@@ -146,6 +146,10 @@ class DuelList extends Component {
       this.getList(false);
       message.success(lang['duel.success']);
       this.setKey(-1);
+      dispatch({
+        type: 'capitalInfo/getCapitalInfo',
+        payload: {load: false}
+      })
     }).catch(() => {
       message.error(lang['duel.fail']);
       this.setKey(-1);

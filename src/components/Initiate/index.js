@@ -78,6 +78,10 @@ class Header extends Component {
       dispatch({
         type: 'duelInfo/getDuelInfo',
         payload: {load: false}
+      });
+      dispatch({
+        type: 'capitalInfo/getCapitalInfo',
+        payload: {load: false}
       })
     }).catch(() => {
       tip.call(this);

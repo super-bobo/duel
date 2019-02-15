@@ -297,18 +297,20 @@ class Header extends Component {
           <p>{lang['mining.text7']}</p>
           <p>{lang['mining.text8']}</p>
           <table className={styles['mining-table']}>
-            <tr>
-              <td>{lang['mining.phase']}</td>
-              <td>{lang['mining.get.duel']}</td>
-              <td>{lang['mining.now.amount']}</td>
-            </tr>
-            {miningData.map(item =>(
-              <tr key={item.mining}>
-                <td>{item.mining}</td>
-                <td>{item.key}</td>
-                <td>{item.val}</td>
+            <tbody>
+              <tr>
+                <td>{lang['mining.phase']}</td>
+                <td>{lang['mining.get.duel']}</td>
+                <td>{lang['mining.now.amount']}</td>
               </tr>
-            ))}
+              {miningData.map(item =>(
+                <tr key={item.mining}>
+                  <td>{item.mining}</td>
+                  <td>{item.key}</td>
+                  <td>{(item.val).toLocaleString()}</td>
+                </tr>
+              ))}
+            </tbody>
           </table>
         </Modal>
         <LoginModal out={true} show={loginModalVisible} onClick={this.loginModalHandler.bind(this)} />
