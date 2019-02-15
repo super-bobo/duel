@@ -21,7 +21,6 @@
     }
 }
 .center{
-    flex: 1;
     .nav-cell{
         cursor: pointer;
         margin-left: 20px;
@@ -31,6 +30,9 @@
             color: $hover-color;
         }
     }
+}
+.dianbao-wrap{
+    flex: 1;
 }
 .dianbao{
     display: inline-block;

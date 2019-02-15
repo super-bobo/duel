@@ -157,14 +157,14 @@ class Header extends Component {
                       <div className={styles['nav-cell']}>{lang['header.introduction']} <Icon type="down" /></div>
                     </Dropdown>
                   </Col>
-                  <Col>
-                    <a className={styles.dianbao} href="https://t.me/joinchat/Le3fahVl1fiHZBnZ1Bjf3Q" target="_blank">
-                      <IconFont type="icon-dianbao"/>
-                    </a>
-                  </Col>
                 </Row>
               </Col>
-              <Col className={`${styles.center} show-sm`}></Col>
+
+              <Col className={styles['dianbao-wrap']}>
+                <a className={styles.dianbao} href="https://t.me/joinchat/Le3fahVl1fiHZBnZ1Bjf3Q" target="_blank">
+                  <IconFont type="icon-dianbao"/>
+                </a>
+              </Col>
               <Col className={styles.right}>
                 {
                   tronInfo.isTronLogin ? 
@@ -303,7 +303,7 @@ class Header extends Component {
           <p>{lang['mining.text1']}</p>
           <p>{lang['mining.text2']}</p>
           <p>{lang['mining.text3']}</p><br />
-          <p>{lang['mining.text6']}<span className="text-title">10,000,000,000 * 50% = 5,000,000,000</span></p>
+          <p>{lang['mining.text6']}<span className="text-hover">10,000,000,000 * 50% = 5,000,000,000</span></p>
           <p>{lang['mining.text7']}</p>
           <p>{lang['mining.text8']}</p>
           <table className={styles['mining-table']}>
