@@ -74,6 +74,9 @@ ul, ol{
       .text-title{
         color: $border-color;
       }
+      .text-hover{
+        color: $hover-color;
+      }
     }
     .ant-dropdown-menu{
       background-color: $light-color;
