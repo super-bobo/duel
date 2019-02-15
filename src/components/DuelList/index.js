@@ -118,7 +118,7 @@ class DuelList extends Component {
                     currnet.loading ? (
                       <Btn type="duel" onClick={() => this.battle(record)} loading={currnet.loading}>{lang['duel.duel']}</Btn>
                     ) : (
-                      <div><Progress type="circle" status="success" width={36} strokeWidth={10} percent={currnet.count*10} format={() => currnet.count} /></div>
+                      <div><Progress type="circle" status="success" width={36} strokeWidth={10} percent={currnet.count*10} format={() => Math.ceil(currnet.count)} /></div>
                     )
                   ) : (
                     <Btn type="duel" onClick={() => this.battle(record)}>{lang['duel.duel']}</Btn>
@@ -129,7 +129,7 @@ class DuelList extends Component {
                   currnet ? (
                     currnet.data.creatorOption !== currnet.data.resultOption ? 
                     <Icon className={styles.icon} type="smile" theme="twoTone" twoToneColor="#52c41a" /> : 
-                    <Icon className={styles.icon} type="smile" theme="twoTone" twoToneColor="#999" />
+                    <Icon className={styles.icon} type="frown" theme="twoTone" twoToneColor="#999" />
                   ) :
                   <span>{record.cancel === 0 ? lang['duel.ended']:lang['duel.canceled']}</span>
                 ) : (
@@ -194,7 +194,6 @@ class DuelList extends Component {
       data: {}
     });
     let index  = this.findIndex(copyData, record.id);
-    console.log(copyData, 'copyData')
     this.setActiveDuel(copyData);
     const address = getUrlParam('from');
     joinDuel(record.id, record.bean, address).then(async () => {
@@ -206,7 +205,7 @@ class DuelList extends Component {
       this.setActiveDuel(copyData);
       let time = 10;
       let interval = setInterval(() => {
-        time--
+        time = time - 0.1;
         copyData[index].count = time;
         this.setActiveDuel(copyData);
         if(time === 0) {
@@ -223,7 +222,7 @@ class DuelList extends Component {
             payload: {load: false}
           })
         }
-      }, 1000);
+      }, 100);
     }).catch(() => {
       message.error(lang['duel.fail']);
       copyData.splice(index, 1);
