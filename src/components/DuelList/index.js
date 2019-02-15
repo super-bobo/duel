@@ -167,7 +167,7 @@ class DuelList extends Component {
       let count = 0;
       let fun = (id) => {
         duelDetail(id).then(res => {
-          count++
+          count++;
           if(res.data.body.finished === 1) resolve(res.data.body);
           else {
             setTimeout(() => {
@@ -186,36 +186,34 @@ class DuelList extends Component {
     if(!isTronLogin) return message.warning(lang['duel.login']);
 
     this.setKey(record.id);
-    let copyData = deepCopy(activeDuel);
-    copyData.push({
+    activeDuel.push({
       id: record.id,
       loading: true,
       count: 10,
       data: {}
     });
-    let index  = this.findIndex(copyData, record.id);
-    this.setActiveDuel(copyData);
+    let index  = this.findIndex(activeDuel, record.id);
+    this.setActiveDuel(activeDuel);
     const address = getUrlParam('from');
     joinDuel(record.id, record.bean, address).then(async () => {
       message.success(lang['duel.success']);
-      copyData[index].loading = false;
-      this.setActiveDuel(copyData);
+      activeDuel[index].loading = false;
+      this.setActiveDuel(activeDuel);
       let detail = await this.getDuelDetial(record.id);
-      copyData[index].data = detail;
-      this.setActiveDuel(copyData);
+      activeDuel[index].data = detail;
+      this.setActiveDuel(activeDuel);
       let time = 10;
       let interval = setInterval(() => {
         time = time - 0.1;
-        copyData[index].count = time;
-        this.setActiveDuel(copyData);
-        if(time === 0) {
+        activeDuel[index].count = time;
+        this.setActiveDuel(activeDuel);
+        if(time <= 0) {
           clearInterval(interval);
-          let copyList = deepCopy(list);
-          let listIndex  = this.findIndex(copyList, record.id);
-          copyList[listIndex] = detail;
+          let listIndex  = this.findIndex(list, record.id);
+          list[listIndex] = detail;
           dispatch({
             type: 'duelInfo/setDuelInfo',
-            payload: {list: copyList}
+            payload: {list}
           })
           dispatch({
             type: 'capitalInfo/getCapitalInfo',
@@ -225,8 +223,8 @@ class DuelList extends Component {
       }, 100);
     }).catch(() => {
       message.error(lang['duel.fail']);
-      copyData.splice(index, 1);
-      this.setActiveDuel(copyData);
+      activeDuel.splice(index, 1);
+      this.setActiveDuel(activeDuel);
     })
   }
   cancel(record) {
