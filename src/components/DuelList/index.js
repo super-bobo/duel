@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 
-import { getUrlParam } from '../../utils/Tool';
+import { getUrlParam, deepCopy } from '../../utils/Tool';
 
 import styles from './style.scss';
 
-import { Tabs, Table, Row, Col, message } from 'antd';
+import { Tabs, Table, Row, Col, message, Icon, Progress } from 'antd';
 import PartContainer from '../PartContainer';
 import Loading from '../Loading';
 import Btn from '../Btn';
 
 import { joinDuel, cancelDuel } from '../../api/tronApi';
+import { duelDetail } from '../../api';
 
 const TabPane = Tabs.TabPane;
 
@@ -21,6 +22,7 @@ class DuelList extends Component {
     const {langInfo: {lang}} = this.props;
     this.state = {
       currentKey: -1,
+      activeDuel: [], // 进行中的duel
       columns: [
         {
           title: lang['duel.supply'],
@@ -104,16 +106,35 @@ class DuelList extends Component {
           dataIndex: '',
           align: 'center',
           render: (text, record) => {
-            let { currentKey } = this.state;
+            let { currentKey, activeDuel } = this.state;
+            let index = this.findIndex(activeDuel, record.id);
+            let currnet = index !== -1 ? activeDuel[index] : null;
             switch (record.finished) {
               case 0:
                 if(record.type === 1) {
                   return <Btn type="cancel" onClick={() => this.cancel(record)} loading={currentKey === record.id}>{lang['duel.cancel']}</Btn>;
                 } else {
-                  return <Btn type="duel" onClick={() => this.battle(record)} loading={currentKey === record.id}>{lang['duel.duel']}</Btn>;
+                  return currnet ? (
+                    currnet.loading ? (
+                      <Btn type="duel" onClick={() => this.battle(record)} loading={currnet.loading}>{lang['duel.duel']}</Btn>
+                    ) : (
+                      <div><Progress type="circle" status="success" width={36} strokeWidth={10} percent={currnet.count*10} format={() => currnet.count} /></div>
+                    )
+                  ) : (
+                    <Btn type="duel" onClick={() => this.battle(record)}>{lang['duel.duel']}</Btn>
+                  );
                 }
               case 1:
-                return <span>{record.cancel === 0 ? lang['duel.ended']:lang['duel.canceled']}</span>;
+                return record.cancel === 0 ? (
+                  currnet ? (
+                    currnet.data.creatorOption !== currnet.data.resultOption ? 
+                    <Icon className={styles.icon} type="smile" theme="twoTone" twoToneColor="#52c41a" /> : 
+                    <Icon className={styles.icon} type="smile" theme="twoTone" twoToneColor="#999" />
+                  ) :
+                  <span>{record.cancel === 0 ? lang['duel.ended']:lang['duel.canceled']}</span>
+                ) : (
+                  <span>{lang['duel.canceled']}</span>
+                )
               default:
                 return null;
             }
@@ -126,7 +147,8 @@ class DuelList extends Component {
     this.getList();
   }
   activeClass(id1, id2, type) {
-    return type !== 0 && id1 === id2 && id2  === type - 1 ? styles.self : '';
+    if(type === 1 && id1 === id2 || type === 2 && id1 !== id2) return styles.self;
+    else return '';
   }
   getList(load = true) {
     let {dispatch} = this.props;
@@ -135,24 +157,77 @@ class DuelList extends Component {
       payload: {load}
     })
   }
+  findIndex(arr, id){
+    return arr.findIndex(item => {
+      return item.id === id;
+    })
+  }
+  getDuelDetial(id){
+    return new Promise((resolve, reject) => {
+      let count = 0;
+      let fun = (id) => {
+        duelDetail(id).then(res => {
+          count++
+          if(res.data.body.finished === 1) resolve(res.data.body);
+          else {
+            setTimeout(() => {
+              fun()
+            }, 100);
+          }
+        });
+      }
+      fun(id);
+    })
+  }
   battle(record) {
+    let { activeDuel } = this.state;
     const {langInfo: {lang}, tronInfo: {isTronLogin}, dispatch} = this.props;
+    let { list } = this.props.duelInfo;
     if(!isTronLogin) return message.warning(lang['duel.login']);
 
     this.setKey(record.id);
-
+    let copyData = deepCopy(activeDuel);
+    copyData.push({
+      id: record.id,
+      loading: true,
+      count: 10,
+      data: {}
+    });
+    let index  = this.findIndex(copyData, record.id);
+    console.log(copyData, 'copyData')
+    this.setActiveDuel(copyData);
     const address = getUrlParam('from');
-    joinDuel(record.id, record.bean, address).then(() => {
-      this.getList(false);
+    joinDuel(record.id, record.bean, address).then(async () => {
       message.success(lang['duel.success']);
-      this.setKey(-1);
-      dispatch({
-        type: 'capitalInfo/getCapitalInfo',
-        payload: {load: false}
-      })
+      copyData[index].loading = false;
+      this.setActiveDuel(copyData);
+      let detail = await this.getDuelDetial(record.id);
+      copyData[index].data = detail;
+      this.setActiveDuel(copyData);
+      let time = 10;
+      let interval = setInterval(() => {
+        time--
+        copyData[index].count = time;
+        this.setActiveDuel(copyData);
+        if(time === 0) {
+          clearInterval(interval);
+          let copyList = deepCopy(list);
+          let listIndex  = this.findIndex(copyList, record.id);
+          copyList[listIndex] = detail;
+          dispatch({
+            type: 'duelInfo/setDuelInfo',
+            payload: {list: copyList}
+          })
+          dispatch({
+            type: 'capitalInfo/getCapitalInfo',
+            payload: {load: false}
+          })
+        }
+      }, 1000);
     }).catch(() => {
       message.error(lang['duel.fail']);
-      this.setKey(-1);
+      copyData.splice(index, 1);
+      this.setActiveDuel(copyData);
     })
   }
   cancel(record) {
@@ -176,6 +251,9 @@ class DuelList extends Component {
   setKey = (key) => {
     this.setState({currentKey: key});
   }
+  setActiveDuel = activeDuel => {
+    this.setState({activeDuel});
+  }
   callback(index) {
     const { dispatch } = this.props;
     dispatch({
@@ -196,6 +274,9 @@ class DuelList extends Component {
           <TabPane tab={lang['duel.list']} key="1"></TabPane>
           <TabPane tab={lang['duel.my.list']} key="2"></TabPane>
         </Tabs>
+        <div className={styles['loading-wrap']} onClick={()=> this.getList()}>
+          <Icon type="reload" />
+        </div>
         <Loading height="464px" loading={loading} data={list}>
           <Table 
             rowKey="id"

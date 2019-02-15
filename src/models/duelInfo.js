@@ -8,7 +8,7 @@ export default {
     list: [],
     loading: false,
     page: 1,
-    limit: 30,
+    limit: 50,
     activeKey: '1'
   },
 
@@ -29,7 +29,7 @@ export default {
       let { load } = payload;
       if(load) yield put({ type: 'setDuelInfo', payload: {loading: load} });
       if(activeKey === '1') {
-        let result = yield call(duelsList, {page, limit});
+        let result = yield call(duelsList);
         yield put({ type: 'setDuelInfo', payload: {list: result.data.body, loading: false} });
       } else if(activeKey === '2'){
         let result = yield call(myDuelsList, {page, limit});

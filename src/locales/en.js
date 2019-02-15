@@ -69,7 +69,7 @@ const en_US = {
   "duel.canceled": "Canceled",
   "duel.cancel": "Cancel",
   "duel.duel": "Duel",
-  "duel.success": "Duel success",
+  "duel.success": "Duel success,Waiting for the lottery results",
   "duel.fail": "Duel failure",
   "duel.cancel.success": "Duel canceled",
   "duel.cancel.fail": "Call off a duel",
@@ -102,7 +102,7 @@ const en_US = {
   "capital.cancel.duel": "Call off a duel",
   "capital.victory.autopay": "Victory autopay",
   "capital.promotion.withdrawal": "Promotion of withdrawal",
-  "capital.detail": "Capital subsidiary",
+  "capital.detail": "Fund details",
 
   "ranking.ranking": "Ranking",
   "ranking.player": "Player",

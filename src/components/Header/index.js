@@ -49,7 +49,7 @@ class Header extends Component {
         }
       ],
       promotePage: 1,
-      promoteLimit: 30,
+      promoteLimit: 50,
       withdrawLoading: false,
       drawerVisible: false // 移动端菜单栏
     }

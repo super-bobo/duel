@@ -30,7 +30,6 @@ class CapitalList extends Component {
         },{
           title: lang['capital.balance'],
           dataIndex: 'amount',
-          width: '24%',
           align: 'center',
           render: (text, record) => {
             let add = record.type === 2 || record.type === 3 || record.type === 4;

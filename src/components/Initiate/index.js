@@ -120,7 +120,6 @@ class Header extends Component {
                   formatter={value => {
                     let parse = parseInt(value);
                     if(parse > max) return max;
-                    if(parse < min) return min;
                     return parse;
                   }}
                   value={inputValue}

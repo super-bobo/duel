@@ -53,7 +53,6 @@ class List extends Component {
         },{
           title: lang['ranking.total.balance'],
           dataIndex: 'name',
-          width: '30%',
           align: 'center',
           render: (text, record) => {
             return <div className={this.activeClass(record.type)}>{record.incomeTotal}TRX</div>

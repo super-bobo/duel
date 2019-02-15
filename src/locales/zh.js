@@ -69,7 +69,7 @@ const zh_CN = {
   "duel.canceled": "已取消",
   "duel.cancel": "取消",
   "duel.duel": "决斗",
-  "duel.success": "决斗成功",
+  "duel.success": "决斗成功，等待开奖结果",
   "duel.fail": "决斗失败",
   "duel.cancel.success": "取消决斗成功",
   "duel.cancel.fail": "取消决斗失败",

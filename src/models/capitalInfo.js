@@ -8,7 +8,7 @@ export default {
     list: [],
     loading: false,
     page: 1,
-    limit: 30,
+    limit: 50,
   },
 
   subscriptions: {

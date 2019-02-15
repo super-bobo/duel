@@ -52,6 +52,22 @@ export function getDuelBalances() {
   })
 }
 
+/**
+ * @msg: 获取duel余额
+ * @param {address： 用户地址} 
+ * @return: 
+ */
+export function duelResult(duelId) {
+  return contract().then(contract => {
+    return contract.duels(duelId).call().then(
+      res => {
+        console.log(res, 'res');
+        return res;
+      }
+    )
+  })
+}
+
 
 /**
  * @msg: 创建决斗

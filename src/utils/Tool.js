@@ -48,10 +48,25 @@ function fixedTo2(value) {
   return numFixed(value)(2);
 }
 
+function deepCopy(obj) {
+  var result = Array.isArray(obj) ? [] : {};
+  for (var key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      if (typeof obj[key] === 'object') {
+        result[key] = deepCopy(obj[key]);   //递归复制
+      } else {
+        result[key] = obj[key];
+      }
+    }
+  }
+  return result;
+}
+
 export {
   storage,
   getUrlParam,
   numFixed,
   formatDate,
-  fixedTo2
+  fixedTo2,
+  deepCopy
 };
