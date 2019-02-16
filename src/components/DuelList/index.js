@@ -117,7 +117,7 @@ class DuelList extends Component {
                     currnet.loading ? (
                       <Btn type="duel" onClick={() => this.battle(record)} loading={currnet.loading}>{lang['duel.duel']}</Btn>
                     ) : (
-                      <div><Progress type="circle" status="success" width={36} strokeWidth={10} percent={currnet.count*20} format={() => Math.ceil(currnet.count)} /></div>
+                      <div><Progress type="circle" status="success" width={36} strokeWidth={10} percent={currnet.count*10} format={() => Math.ceil(currnet.count)} /></div>
                     )
                   ) : (
                     <Btn type="duel" onClick={() => this.battle(record)}>{lang['duel.duel']}</Btn>
@@ -169,10 +169,10 @@ class DuelList extends Component {
           count++;
           if(res.data && res.data.body && res.data.body.finished === 1) resolve(res.data.body);
           else {
-            if(count > 20) return resolve(null);
+            if(count > 25) return resolve(null);
             setTimeout(() => {
               fun(id)
-            }, 200);
+            }, 300);
           }
         });
       }
@@ -189,20 +189,23 @@ class DuelList extends Component {
     activeDuel.push({
       id: record.id,
       loading: true,
-      count: 5,
+      count: 10,
       data: {}
     });
     let index  = this.findIndex(activeDuel, record.id);
     this.setActiveDuel(activeDuel);
     const address = getUrlParam('from');
-    joinDuel(record.id, record.bean, address).then(async () => {
+    joinDuel(record.id, record.bean, address).then(() => {
       message.success(lang['duel.success']);
       activeDuel[index].loading = false;
       this.setActiveDuel(activeDuel);
-      let detail = await this.getDuelDetial(record.id);
-      activeDuel[index].data = detail || {};
-      this.setActiveDuel(activeDuel);
-      let time = 5;
+      let detail = null;
+      this.getDuelDetial(record.id).then(res => {
+        detail = res;
+        activeDuel[index].data = detail || {};
+        this.setActiveDuel(activeDuel);
+      })
+      let time = 10;
       let interval = setInterval(() => {
         time = time - 0.05;
         activeDuel[index].count = time;
@@ -210,11 +213,13 @@ class DuelList extends Component {
         if(time < -0.1) {
           clearInterval(interval);
           let listIndex  = this.findIndex(list, record.id);
-          detail && (list[listIndex] = detail);
-          dispatch({
-            type: 'duelInfo/setDuelInfo',
-            payload: {list}
-          })
+          if(detail) {
+            list[listIndex] = detail;
+            dispatch({
+              type: 'duelInfo/setDuelInfo',
+              payload: {list}
+            })
+          }
           dispatch({
             type: 'capitalInfo/getCapitalInfo',
             payload: {load: false}
@@ -239,7 +244,6 @@ class DuelList extends Component {
     cancelDuel(record.id).then(async () => {
       let listIndex  = this.findIndex(list, record.id);
       let detail = await this.getDuelDetial(record.id);
-      console.log(detail, 'detail')
       detail && (list[listIndex] = detail);
       dispatch({
         type: 'duelInfo/setDuelInfo',
