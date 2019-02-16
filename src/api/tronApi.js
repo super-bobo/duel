@@ -61,7 +61,6 @@ export function duelResult(duelId) {
   return contract().then(contract => {
     return contract.duels(duelId).call().then(
       res => {
-        console.log(res, 'res');
         return res;
       }
     )
@@ -79,7 +78,7 @@ export function createDuel(type, callValue, address) {
       return contract.createDuel(type, tronConfig.cancelAt, address ? address : tronConfig.defaultAddress).send({
         // feeLimit: 10000,
         callValue: window.tronWeb.toSun(callValue),
-        shouldPollResponse: true
+        shouldPollResponse: false
       })
     })
 }
@@ -93,7 +92,7 @@ export function joinDuel(duelId, callValue, address) {
   return contract().then(contract => {
       return contract.join(duelId, address ? address : tronConfig.defaultAddress).send({
           callValue: window.tronWeb.toSun(callValue),
-          shouldPollResponse: true
+          shouldPollResponse: false
       });
   })
 }
