@@ -10,40 +10,40 @@ body, div, ol, ul, h1, h2, h3, h4, h5, h6, p, th, td, dl, dd, form, iframe, inpu
 
 /* 滚动条样式*/
 
-// ::-webkit-scrollbar {
-//   height: 8px;
-//   width: 8px;
-//   background: rgba(222, 222, 222, 0.5);
-//   transition: all 0.3s ease-in-out;
-//   border-radius: 5px;
-// }
-// ::-webkit-scrollbar-button {
-//   display: none;
-// }
+::-webkit-scrollbar {
+  height: 8px;
+  width: 3px;
+  background: rgba($color: $bg-color, $alpha: .6);
+  transition: all 0.3s ease-in-out;
+  border-radius: 5px;
+}
+::-webkit-scrollbar-button {
+  display: none;
+}
 
-// ::-webkit-scrollbar-track {
-//   background-color: transparent;
-// }
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
 
-// ::-webkit-scrollbar-track-piece {
-//   background-color: transparent;
-// }
+::-webkit-scrollbar-track-piece {
+  background-color: transparent;
+}
 
-// ::-webkit-scrollbar-thumb {
-//   width: 8px;
-//   min-height: 15px;
-//   background: rgba(0, 0, 0, 0.3);
-//   transition: all 0.3s ease-in-out;
-//   border-radius: 5px;
-// }
+::-webkit-scrollbar-thumb {
+  width: 3px;
+  min-height: 10px;
+  background: rgba(0, 0, 0, 0.8);
+  transition: all 0.3s ease-in-out;
+  border-radius: 5px;
+}
 
-// ::-webkit-scrollbar-thumb:hover {
-//   background: rgba(0, 0, 0, 0.6);
-// }
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 9);
+}
 
-// ::-webkit-scrollbar-thumb:active {
-//   background: rgba(0, 0, 0, 0.8);
-// }
+::-webkit-scrollbar-thumb:active {
+  background: rgba(0, 0, 0, 1);
+}
 
 
 html {
@@ -210,6 +210,7 @@ ul, ol{
     .ant-table-body{
       background-color: transparent!important;
       color: #fff;
+      overflow-y: auto!important;
       tr>td{
         border-bottom-color: $bg-color;
         padding-left: 0;

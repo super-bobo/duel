@@ -167,8 +167,9 @@ class DuelList extends Component {
       let fun = (id) => {
         duelDetail(id).then(res => {
           count++;
-          if(res.data.body.finished === 1) resolve(res.data.body);
+          if(res.data && res.data.body && res.data.body.finished === 1) resolve(res.data.body);
           else {
+            if(count > 10) return resolve(null);
             setTimeout(() => {
               fun()
             }, 100);
@@ -199,9 +200,9 @@ class DuelList extends Component {
       activeDuel[index].loading = false;
       this.setActiveDuel(activeDuel);
       let detail = await this.getDuelDetial(record.id);
-      activeDuel[index].data = detail;
+      activeDuel[index].data = detail || {};
       this.setActiveDuel(activeDuel);
-      let time = 10;
+      let time = 5;
       let interval = setInterval(() => {
         time = time - 0.1;
         activeDuel[index].count = time;
@@ -209,7 +210,7 @@ class DuelList extends Component {
         if(time <= 0) {
           clearInterval(interval);
           let listIndex  = this.findIndex(list, record.id);
-          list[listIndex] = detail;
+          detail && (list[listIndex] = detail);
           dispatch({
             type: 'duelInfo/setDuelInfo',
             payload: {list}
@@ -227,19 +228,25 @@ class DuelList extends Component {
     })
   }
   cancel(record) {
-    const {langInfo: {lang}, tronInfo: {isTronLogin}} = this.props;
+    const {langInfo: {lang}, tronInfo: {isTronLogin}, dispatch} = this.props;
+    let { list } = this.state;
     if(new Date(record.cancelAt).getTime() > Date.now()) 
       return message.error(`${lang['duel.after']}${record.cancelAt}${lang['duel.canbe']}`);
     if(!isTronLogin) return message.warning(lang['duel.login']);
 
     this.setKey(record.id);
 
-    cancelDuel(record.id).then(() => {
-      this.getList(false);
+    cancelDuel(record.id).then(async () => {
       message.success(lang['duel.cancel.success']);
       this.setKey(-1);
+      let listIndex  = this.findIndex(list, record.id);
+      const detail = await this.getDuelDetial(record.id);
+      detail && (list[listIndex] = detail);
+      dispatch({
+        type: 'duelInfo/setDuelInfo',
+        payload: {list}
+      })
     }).catch(() => {
-      this.getList(false);
       message.error(lang['duel.cancel.fail']);
       this.setKey(-1);
     })
