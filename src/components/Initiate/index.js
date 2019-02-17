@@ -97,7 +97,7 @@ class Header extends Component {
     const {min, max, odds} = config;
     let { isTronLogin, tronBalance, duelBalance, duelAward } = this.props.tronInfo;
     const {lang} = this.props.langInfo;
-    let trxObtain = isNumber(inputValue) ? fixedTo2(inputValue*2*(1 - odds)) : '0.00';
+    let trxObtain = isNumber(inputValue) ? fixedTo2(inputValue + inputValue*(1 - odds)) : '0.00';
     let duelObtain = isNumber(inputValue) ? fixedTo2(inputValue*duelAward) : '0.00';
     return (
       <PartContainer height="520px">
