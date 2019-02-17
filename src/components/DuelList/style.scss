@@ -45,3 +45,31 @@
 .icon{
     font-size: 28px;
 }
+.smile{
+    animation: smile 1.2s ease-in-out 1;
+}
+.frown{
+    animation: frown 1.2s ease-in-out 1;
+}
+@keyframes smile{
+    0%{
+        transform: scale(1);
+    }
+    50%{
+        transform: scale(1.5);
+    }
+    100%{
+        transform: scale(1);
+    }
+}
+@keyframes frown{
+    0%{
+        transform: scale(1);
+    }
+    50%{
+        transform: scale(.5);
+    }
+    100%{
+        transform: scale(1);
+    }
+}

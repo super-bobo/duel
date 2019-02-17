@@ -73,16 +73,18 @@ class Header extends Component {
     // 创建决斗
     const address = getUrlParam('from');
     createDuel(currentType, inputValue, address).then(() => {
-      tip.call(this);
-      message.success(lang['initiate.create.success']);
-      dispatch({
-        type: 'duelInfo/getDuelInfo',
-        payload: {load: false}
-      });
-      dispatch({
-        type: 'capitalInfo/getCapitalInfo',
-        payload: {load: false}
-      })
+      setTimeout(() => {
+        tip.call(this);
+        message.success(lang['initiate.create.success']);
+        dispatch({
+          type: 'duelInfo/getDuelInfo',
+          payload: {load: false}
+        });
+        dispatch({
+          type: 'capitalInfo/getCapitalInfo',
+          payload: {load: false}
+        })
+      }, 3000)
     }).catch(() => {
       tip.call(this);
       message.error(lang['initiate.create.fail']);

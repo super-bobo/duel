@@ -9,4 +9,12 @@ module.exports = function(app) {
       } 
     })
   );
+  app.use(proxy('/listener', {
+    target: 'http://111.231.64.75:8083/',
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/listener/": "/listener/"
+    } 
+  })
+);
 };

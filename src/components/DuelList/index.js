@@ -10,8 +10,8 @@ import PartContainer from '../PartContainer';
 import Loading from '../Loading';
 import Btn from '../Btn';
 
-import { joinDuel, cancelDuel, duelResult } from '../../api/tronApi';
-import { duelDetail } from '../../api';
+import { joinDuel, cancelDuel } from '../../api/tronApi';
+import { duelDetail, listenerJoin } from '../../api';
 
 const TabPane = Tabs.TabPane;
 
@@ -127,8 +127,8 @@ class DuelList extends Component {
                 return record.cancel === 0 ? (
                   currnet ? (
                     currnet.data.creatorOption !== currnet.data.resultOption ? 
-                    <Icon className={styles.icon} type="smile" theme="twoTone" twoToneColor="#52c41a" /> : 
-                    <Icon className={styles.icon} type="frown" theme="twoTone" twoToneColor="#999" />
+                    <Icon className={`${styles.icon} ${styles.smile}`} type="smile" theme="twoTone" twoToneColor="#52c41a" /> : 
+                    <Icon className={`${styles.icon} ${styles.frown}`} type="frown" theme="twoTone" twoToneColor="#999" />
                   ) :
                   <span>{record.cancel === 0 ? lang['duel.ended']:lang['duel.canceled']}</span>
                 ) : (
@@ -139,17 +139,7 @@ class DuelList extends Component {
             }
           }
         }
-      ],
-      fields: [{
-        type: 'bean',
-        data: ['bean', 'id']
-      }, {
-        type: 'address',
-        data: ['creator', 'join', 'win', 'winPromoter']
-      }, {
-        type: 'time',
-        data: ['cancelAt']
-      }]
+      ]
     }
   }
   componentWillMount() {
@@ -172,46 +162,22 @@ class DuelList extends Component {
     })
   }
   getDuelDetial(id){
-    const { fields } = this.state;
     return new Promise((resolve, reject) => {
-      // let count = 0;
-      // let fun = (id) => {
-      //   duelDetail(id).then(res => {
-      //     count++;
-      //     if(res.data && res.data.body && res.data.body.finished === 1) resolve(res.data.body);
-      //     else {
-      //       if(count > 25) return resolve(null);
-      //       setTimeout(() => {
-      //         fun(id)
-      //       }, 300);
-      //     }
-      //   });
-      // }
-      // fun(id);
-      duelResult(id).then(result => {
-        console.log(result);
-        let detail = deepCopy(result);
-        fields.forEach(field => {
-          field.data.forEach(item => {
-            switch (field.type) {
-              case 'bean':
-                detail[item] = window.tronWeb.fromSun(window.tronWeb.toDecimal(detail[item]._hex));
-                break;
-              case 'time':
-                detail[item] = window.tronWeb.toDecimal(detail[item]._hex);
-                break;
-              case 'address':
-                const address = window.tronWeb.address.fromHex(detail[item]); 
-                detail[item] = `${address.slice(0,3)}*${address.slice(-3)}`
-                break;
-              default:
-                break;
+      listenerJoin({id}).then(() => {
+        let count = 0;
+        let fun = (id) => {
+          duelDetail(id).then(res => {
+            count++;
+            if(res.data && res.data.body && res.data.body.finished === 1) resolve(res.data.body);
+            else {
+              if(count > 10) return resolve(null);
+              setTimeout(() => {
+                fun(id)
+              }, 500);
             }
-          })
-        })
-        detail.type = 2;
-        detail.id = id;
-        resolve(detail);
+          });
+        }
+        fun(id);
       })
     })
   }
