@@ -53,7 +53,7 @@ export function getDuelBalances() {
 }
 
 /**
- * @msg: 获取duel余额
+ * @msg: 获取duel结果
  * @param {address： 用户地址} 
  * @return: 
  */
@@ -78,7 +78,7 @@ export function createDuel(type, callValue, address) {
       return contract.createDuel(type, tronConfig.cancelAt, address ? address : tronConfig.defaultAddress).send({
         // feeLimit: 10000,
         callValue: window.tronWeb.toSun(callValue),
-        shouldPollResponse: false
+        shouldPollResponse: true
       })
     })
 }
