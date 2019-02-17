@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 
-import { getUrlParam, deepCopy } from '../../utils/Tool';
+import { getUrlParam } from '../../utils/Tool';
 
 import styles from './style.scss';
 
@@ -9,6 +9,7 @@ import { Tabs, Table, Row, Col, message, Icon, Progress } from 'antd';
 import PartContainer from '../PartContainer';
 import Loading from '../Loading';
 import Btn from '../Btn';
+import Refresh from '../Refresh';
 
 import { joinDuel, cancelDuel } from '../../api/tronApi';
 import { duelDetail, listenerJoin } from '../../api';
@@ -284,9 +285,7 @@ class DuelList extends Component {
           <TabPane tab={lang['duel.list']} key="1"></TabPane>
           <TabPane tab={lang['duel.my.list']} key="2"></TabPane>
         </Tabs>
-        <div className={styles['loading-wrap']} onClick={()=> this.getList()}>
-          <Icon type="reload" />
-        </div>
+        <Refresh onClick={()=> this.getList()} />
         <Loading height="464px" loading={loading} data={list}>
           <Table 
             rowKey="id"

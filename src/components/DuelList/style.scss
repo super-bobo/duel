@@ -22,18 +22,6 @@
 .self{
     color: $border-color;
 }
-.loading-wrap{
-    position: absolute;
-    right: 20px;
-    top: 13px;
-    font-size: 20px;
-    color: $font-color;
-    transition: all .3s;
-    cursor: pointer;
-    &:hover{
-        color: #fff;
-    }
-}
 .circle{
     :global{
         .ant-progress-text{

@@ -6,6 +6,7 @@ import styles from './style.scss';
 import { Table } from 'antd';
 import PartContainer from '../PartContainer';
 import Loading from '../Loading';
+import Refresh from '../Refresh';
 
 class CapitalList extends Component {
   constructor(props) {
@@ -67,6 +68,7 @@ class CapitalList extends Component {
     return (
       <PartContainer height="520px">
         <p className={styles.title}>{lang['capital.detail']}</p>
+        <Refresh onClick={()=> this.getList(true)} />
         <Loading height="464px" loading={loading} data={list}>
           <Table
             rowKey="id"
