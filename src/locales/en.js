@@ -78,6 +78,8 @@ const en_US = {
   "duel.canbe": " can be call off a duel",
   "duel.after": "After ",
   "duel.login": "Sign in first",
+  "duel.isended": "Duel is over",
+  "duel.iscanceled": "Duel has been called off",
 
   "initiate.not.enough": "Insufficient TRX balance",
   "initiate.at.lest": "Minimum bets ",

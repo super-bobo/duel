@@ -126,12 +126,12 @@ class DuelList extends Component {
                 }
               case 1:
                 return record.cancel === 0 ? (
-                  currnet ? (
+                  currnet && currnet.data.type !== 0 ? (
                     currnet.data.creatorOption !== currnet.data.resultOption ? 
                     <Icon className={`${styles.icon} ${styles.smile}`} type="smile" theme="twoTone" twoToneColor="#52c41a" /> : 
                     <Icon className={`${styles.icon} ${styles.frown}`} type="frown" theme="twoTone" twoToneColor="#999" />
                   ) :
-                  <span>{record.cancel === 0 ? lang['duel.ended']:lang['duel.canceled']}</span>
+                  <span>{lang['duel.ended']}</span>
                 ) : (
                   <span>{lang['duel.canceled']}</span>
                 )
@@ -182,10 +182,26 @@ class DuelList extends Component {
       })
     })
   }
-  battle(record) {
+  async isEndOrCancel(id, callback) {
+    const {langInfo: {lang}} = this.props;
+    const result = await duelDetail(id);
+    if(result.data.body.cancel === 1) {
+      callback && callback();
+      this.setlist(result.data.body, id);
+      message.warning(lang['duel.iscanceled']);
+      return false;
+    }
+    if(result.data.body.finished === 1) {
+      callback && await callback();
+      this.setlist(result.data.body, id);
+      message.warning(lang['duel.isended']);
+      return false;
+    }
+    return result.data.body;
+  }
+  async battle(record) {
     let { activeDuel } = this.state;
     const {langInfo: {lang}, tronInfo: {isTronLogin}, dispatch} = this.props;
-    let { list } = this.props.duelInfo;
     if(!isTronLogin) return message.warning(lang['duel.login']);
 
     this.setKey(record.id);
@@ -197,6 +213,11 @@ class DuelList extends Component {
     });
     let index  = this.findIndex(activeDuel, record.id);
     this.setActiveDuel(activeDuel);
+    const currnetDetail = await this.isEndOrCancel(record.id, () => {
+      activeDuel.splice(index, 1);
+      this.setActiveDuel(activeDuel);
+    });
+    if(!currnetDetail) return false;
     const address = getUrlParam('from');
     joinDuel(record.id, record.bean, address).then(() => {
       message.success(lang['duel.success']);
@@ -215,14 +236,7 @@ class DuelList extends Component {
         this.setActiveDuel(activeDuel);
         if(time < -0.1) {
           clearInterval(interval);
-          let listIndex  = this.findIndex(list, record.id);
-          if(detail) {
-            list[listIndex] = detail;
-            dispatch({
-              type: 'duelInfo/setDuelInfo',
-              payload: {list}
-            })
-          }
+          this.setlist(detail, record.id);
           dispatch({
             type: 'capitalInfo/getCapitalInfo',
             payload: {load: false}
@@ -235,29 +249,44 @@ class DuelList extends Component {
       this.setActiveDuel(activeDuel);
     })
   }
-  cancel(record) {
-    const {langInfo: {lang}, tronInfo: {isTronLogin}, dispatch} = this.props;
-    let { list } = this.props.duelInfo;
-    if(new Date(record.cancelAt).getTime() > Date.now()) 
-      return message.error(`${lang['duel.after']}${record.cancelAt}${lang['duel.canbe']}`);
-    if(!isTronLogin) return message.warning(lang['duel.login']);
-
+  async cancel(record) {
+    const {langInfo: {lang}, tronInfo: {isTronLogin}} = this.props;
     this.setKey(record.id);
-
+    const currnetDetail = await this.isEndOrCancel(record.id, () => {
+      this.setKey(-1);
+    });
+    if(!currnetDetail) return false;
+    if(new Date((record.cancelAt).replace(/-/g, '/')).getTime() > Date.now()) {
+      this.setKey(-1);
+      return message.error(`${lang['duel.after']}${record.cancelAt}${lang['duel.canbe']}`);
+    }
+    if(!isTronLogin) {
+      this.setKey(-1);
+      return message.warning(lang['duel.login']);
+    }
+    this.setKey(record.id);
     cancelDuel(record.id).then(async () => {
-      let listIndex  = this.findIndex(list, record.id);
       let detail = await this.getDuelDetial(record.id);
-      detail && (list[listIndex] = detail);
-      dispatch({
-        type: 'duelInfo/setDuelInfo',
-        payload: {list}
-      })
+      this.setlist(detail, record.id);
       message.success(lang['duel.cancel.success']);
       this.setKey(-1);
     }).catch(() => {
       message.error(lang['duel.cancel.fail']);
       this.setKey(-1);
     })
+  }
+  setlist(detail, id){
+    const { dispatch } = this.props;
+    let { list } = this.props.duelInfo;
+    let listIndex  = this.findIndex(list, id);
+    if(detail) {
+      list[listIndex] = detail;
+      console.log(detail, list, 'list');
+      dispatch({
+        type: 'duelInfo/setDuelInfo',
+        payload: {list}
+      })
+    }
   }
   setKey = (key) => {
     this.setState({currentKey: key});

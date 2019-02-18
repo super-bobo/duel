@@ -78,6 +78,8 @@ const zh_CN = {
   "duel.canbe": "之后才行取消决斗",
   "duel.after": "",
   "duel.login": "请先登录",
+  "duel.isended": "决斗已结束",
+  "duel.iscanceled": "决斗已被取消",
 
   "initiate.not.enough": "TRX余额不足",
   "initiate.at.lest": "最少投注",
