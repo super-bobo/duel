@@ -1,5 +1,6 @@
 import zh from '../locales/zh';
 import en from '../locales/en';
+import CurrentLang from '../locales/CurrentLang';
 const MESSAGES = { en, zh };
 
 export default {
@@ -13,10 +14,9 @@ export default {
 
   subscriptions: {
     setup({ dispatch, history }) {
-      const lang = window.localStorage.getItem('lang') || 'zh';
       dispatch({
         type: 'setLang',
-        payload: lang
+        payload: CurrentLang
       })
     }
   },

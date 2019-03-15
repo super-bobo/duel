@@ -1,4 +1,32 @@
+@import '../../assets/css/color.scss';
 .content{
     padding-top: 80px;
     color: #fff;
+    position: relative;
+}
+.chat-btn{
+    position: absolute;
+    height: 100%;
+    bottom: 10px;
+    left: 0;
+    z-index: 999;
+    >div{
+        width: 56px;
+        height: 56px;
+        line-height: 56px;
+        position: sticky;
+        top: calc(100% - 64px);
+        left: 0;
+        border-radius: 50%;
+        background-color: rgba($color: $bg-color, $alpha: .9);
+        color: #fff;
+        text-align: center;
+        font-size: 24px;
+        cursor: pointer;
+        transition: all .3s;
+        z-index: 9999;
+        &:hover{
+            background-color: $bg-color;
+        }
+    }
 }

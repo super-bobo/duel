@@ -1,0 +1,97 @@
+@import '../../assets/css/color.scss';
+.chat-wrapper{
+    width: 100%;
+    max-width: 420px;
+    height: calc(100% - 60px);
+    max-height: 600px;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    transform: translateX(-100%);
+    background-color: #fff;
+    border: solid 1px $light-color;
+    transition: transform cubic-bezier(.16,.22,.22,1.7) .3s;
+    box-shadow: 0 2px 0 rgba($color: #000000, $alpha: .6);
+    z-index: 999;
+    &.show{
+        transform: translateX(0);
+    }
+}
+.chat-inner-wrap{
+    position: relative;
+    height: calc(100% - 96px);
+    padding: 0 12px;
+    background-color: $basis-color;
+    overflow-y: auto;
+}
+.colse-btn{
+    font-size: 20px;
+    color: $font-color;
+    position: fixed;
+    right: 12px;
+    top: 14px;
+    transition: color .3s ease;
+    cursor: pointer;
+    &:hover{
+        color: #fff;
+    }
+}
+.chat-header{
+    height: 48px;
+    line-height: 48px;
+    background-color: $bg-color;
+}
+.title{
+    font-size: 18px;
+    margin-left: 12px;
+    color: #fff;
+}
+.chat-inner{
+    height: 120%;
+    :global{
+        .ant-list-item-meta-title {
+            color: #fff;
+        }
+        .ant-list-item-meta-description{
+            color: #fff;
+        }
+        .ant-list-split .ant-list-item{
+            border-bottom-color: rgba($color: #fff, $alpha: .03);
+        }
+    }
+}
+.chat-footer{
+    height: 48px;
+    padding: 0 5px;
+    background-color: $bg-color;
+    .input{
+        padding: 4px 8px;
+        height: 32px;
+        line-height: 24px;
+        font-size: 16px;
+        background-color: rgba($color: $basis-color, $alpha: .6);
+        color: #fff;
+        overflow-y: auto;
+        &:focus{
+            border-color: $basis-color;
+            outline: none;
+        }
+    }
+    .icon{
+        margin: 0 5px;
+        font-size: 20px;
+        color: $font-color;
+        cursor: pointer;
+        transition: color .3s;
+        &:hover,&:visited{
+            color: #fff;
+        }
+    }
+}
+:global{
+    .ant-popover-inner-content{
+        .ant-form-inline .ant-form-item-with-help{
+            margin-bottom: 0;
+        }
+    }
+}

@@ -1,6 +1,5 @@
 import zh from './zh';
 import en from './en';
+import CurrentLang from './CurrentLang';
 const MESSAGES = { en, zh };
-const LANG = window.localStorage.getItem('lang') || 'zh';
-
-export default MESSAGES[LANG]; 
+export default MESSAGES[CurrentLang]; 

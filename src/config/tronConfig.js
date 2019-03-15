@@ -5,7 +5,8 @@ const tronConfig = {
     TRONGRID_API: prod ? 'https://api.trongrid.io' : 'https://api.shasta.trongrid.io',
     defaultAddress: prod ? 'TDhujbFptjzA78A7wkrYogYNCq6SL5c5pW' : 'TRR7BaKHje4RcVrDGTzDAKyqeQ9mYVdLQW',
     cancelAt: 1800,
-    iconLink: '//at.alicdn.com/t/font_1046504_msj6a4ooqx.js'
+    iconLink: '//at.alicdn.com/t/font_1046504_irjgdfxp3qm.js',
+    wsUrl: prod ? 'ws://d.tronduel.org:8080' : 'ws://111.231.64.75:8080',
 };
 
 export default tronConfig;

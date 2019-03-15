@@ -1,5 +1,6 @@
 import fetch from 'dva/fetch';
 import { getTronAddress } from '../api/tronApi';
+import CurrentLang from '../locales/CurrentLang';
 
 function parseJSON(response) {
   return response.json();
@@ -36,7 +37,7 @@ export default function request(url, options) {
  * @return: 
  */
 export function getData(url, data = {}, options = {}) {
-  if(options.lang) data.language = window.localStorage.getItem('lang') || 'zh';
+  if(options.lang) data.language = CurrentLang;
   if(options.address) data.address = getTronAddress();
   if(options.t) data.t = Date.now();
   let dataStr = Object.entries(data).map(([key, value]) => `${key}=${value}`);
@@ -56,7 +57,7 @@ export function getData(url, data = {}, options = {}) {
 }
 
 export function postData(url, data = {}, options = {}) {
-  if(options.lang) data.language = window.localStorage.getItem('lang') || 'zh';
+  if(options.lang) data.language = CurrentLang;
   if(options.address) data.address = getTronAddress();
   return fetch(url, {
     body: JSON.stringify(data),

@@ -20,7 +20,7 @@ export const getTronAccount = () => postData(`${tronConfig.TRONGRID_API}/wallet/
 // 获取全部决斗列表
 export const duelsList = params => getAsyncData(() => getData(`${apiUrl}/duels`, params, {address: true}));
 // 获取我的决斗列表
-export const myDuelsList = params => getAsyncData(() => getData(`${apiUrl}/myDuels`, { ...params}, {address: true}));
+export const myDuelsList = params => getAsyncData(() => getData(`${apiUrl}/myDuels`, params, {address: true}));
 // 获取决斗详情
 export const duelDetail = params => getAsyncData(() => getData(`${apiUrl}/duel/${params}`, {}, {address: true}));
 // 获取推广列表
@@ -32,3 +32,6 @@ export const amountRecordsList = params => getAsyncData(() => getData(`${apiUrl}
 
 // 判断参与决斗是否已上链
 export const listenerJoin = params => postData('/listener/join', params);
+
+// 设置昵称
+export const saveOrUpdateName = params => getData(`${apiUrl}/saveOrUpdateName`, params, {address: true});

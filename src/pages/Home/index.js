@@ -8,15 +8,23 @@ import DuelList from '../../components/DuelList';
 import RankingList from '../../components/RankingList';
 import CapitalList from '../../components/CapitalList';
 import MiningInfo from '../../components/MiningInfo';
-import { Row, Col } from 'antd';
+import ChatRoom from '../../components/ChatRoom';
+import { Row, Col, Icon } from 'antd';
 
 class Home extends Component {
   constructor() {
-    super()
+    super();
+    this.state = {
+      chatShow: false
+    }
   }
   componentDidMount() {
   }
+  toggleChat(bol) {
+    this.setState({chatShow: bol});
+  }
   render() {
+    let { chatShow } = this.state;
     return (
       <React.Fragment>
         <Header />
@@ -38,7 +46,13 @@ class Home extends Component {
               <CapitalList />
             </Col>
           </Row>
+          <div className={styles['chat-btn']}>
+            <div onClick={() => this.toggleChat(true)} >
+              <Icon type="message"/>
+            </div>
+          </div>
         </div>
+        <ChatRoom onClick={this.toggleChat.bind(this)} show={chatShow}  />
       </React.Fragment>
     );
   }
